@@ -24,12 +24,12 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 
     $router->group(['middleware' => 'checkRole:teknisi'], function () use ($router) {
         // LIHAT UKER YANG TERHUBUNG DENGAN USER YANG LOGIN
-        $router->get('index', 'UserController@index');
+        $router->get('users', 'UserController@index');
     });
 
     $router->group(['middleware' => 'checkRole:admin'], function () use ($router) {
         // CRUD USER
-        $router->get('users', 'UserController@listusers');
+        $router->get('admin', 'UserController@listusers');
         $router->post('users', 'UserController@store');
         $router->get('users/{user_id}', 'UserController@show');
         $router->put('users/{user_id}', 'UserController@update');
