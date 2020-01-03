@@ -19,9 +19,14 @@ class KanwilController extends Controller
     }
 
     //
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(['kanwils' =>  Kanwil::all()], 200);
+        if ($request->has('search')) {
+            $search = Kanwil::where('name', 'LIKE', '%' . $request->search . '%')->get();
+        } else {
+            $search = Kanwil::all();
+        }
+        return response()->json(['kanwils' => $search], 200);
     }
 
     public function show($id)

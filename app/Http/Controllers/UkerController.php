@@ -21,9 +21,14 @@ class UkerController extends Controller
     }
 
     //
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(['ukers' =>  Uker::all()], 200);
+        if ($request->has('search')) {
+            $search = Uker::where('name', 'LIKE', '%' . $request->search . '%')->get();
+        } else {
+            $search = Uker::all();
+        }
+        return response()->json(['ukers' => $search], 200);
     }
 
     public function show($id)

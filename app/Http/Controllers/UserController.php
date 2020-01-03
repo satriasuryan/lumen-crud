@@ -18,11 +18,6 @@ class UserController extends Controller
         $this->middleware('auth');
     }
 
-    // public function __construct(User $user)
-    // {
-    //     $this->user = $user;
-    // }
-
     public function index()
     {
         $uker = Auth::user()->ukers()->get();
@@ -34,9 +29,14 @@ class UserController extends Controller
         return response()->json(['user' => Auth::user()], 200);
     }
 
-    public function listusers()
+    public function listusers(Request $request)
     {
-        return response()->json(['users' =>  User::all()], 200);
+        if ($request->has('search')) {
+            $search = \App\User::where('name', 'LIKE', '%' . $request->search . '%')->get();
+        } else {
+            $search = User::all();
+        }
+        return response()->json(['users' => $search], 200);
     }
 
     public function store(Request $request)
